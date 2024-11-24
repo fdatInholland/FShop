@@ -1,4 +1,5 @@
 using FShop.Infrastructure.EventBus;
+using FShop.Infrastructure.Mongo;
 
 namespace FShop.Api.Gateway
 {
@@ -18,6 +19,8 @@ namespace FShop.Api.Gateway
             
             //TODO
             //builder.Services.AddScoped<CreateProductHandler>();
+
+            builder.Services.AddMongoDB(builder.Configuration);
 
             builder.Services.AddEndpointsApiExplorer();
 

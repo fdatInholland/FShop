@@ -1,3 +1,7 @@
+using FShop.Infrastructure.Mongo;
+using FShop.User.Api.Repository;
+using FShop.User.Api.Service;
+
 namespace FShop.User.Api
 {
     public class Program
@@ -6,9 +10,15 @@ namespace FShop.User.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
+
+            builder.Services.AddMongoDB(builder.Configuration);
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+         
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,7 +35,6 @@ namespace FShop.User.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
