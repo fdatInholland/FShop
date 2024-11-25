@@ -6,7 +6,8 @@ namespace FShop.User.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        //WTAF!!
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +15,11 @@ namespace FShop.User.Api
 
             builder.Services.AddMongoDB(builder.Configuration);
 
+            await InitializeDB(builder);
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
-         
 
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -39,6 +39,19 @@ namespace FShop.User.Api
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static async Task InitializeDB(WebApplicationBuilder builder)
+        {
+            var provider = builder.Services.BuildServiceProvider();
+            using (var scope = provider.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetService<IDatabaseInitializer>();
+                if (db is null)
+                {
+                    await db.InitializingAsync();
+                }
+            }
         }
     }
 }

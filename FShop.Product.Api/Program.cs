@@ -15,7 +15,7 @@ namespace FShop.Product.Api
            
             builder.Services.AddMongoDB(configuration);
 
-            //added 3-3-2024 - its a HACK!!!
+            //see InitializeDB in userApi
             var provider = builder.Services.BuildServiceProvider();
             using (var scope = provider.CreateScope())
             {
