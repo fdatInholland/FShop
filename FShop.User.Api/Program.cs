@@ -6,7 +6,6 @@ namespace FShop.User.Api
 {
     public class Program
     {
-        //WTAF!!
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +24,6 @@ namespace FShop.User.Api
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -47,7 +45,7 @@ namespace FShop.User.Api
             using (var scope = provider.CreateScope())
             {
                 var db = scope.ServiceProvider.GetService<IDatabaseInitializer>();
-                if (db is null)
+                if (db is not null)
                 {
                     await db.InitializingAsync();
                 }

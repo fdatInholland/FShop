@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using FShop.Infrastructure.Queries.Product;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,9 +22,10 @@ namespace FShop.Infrastructure.EventBus
                         hostcfg.Username(rabbitmq.Username);
                         hostcfg.Password(rabbitmq.Password);
                     });
+                    cfg.ConfigureEndpoints(provider);
                 }));
+                x.AddRequestClient<GetProductById>();
             });
-
             return services;
         }
     }

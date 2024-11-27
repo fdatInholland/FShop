@@ -14,17 +14,24 @@ namespace FShop.Product.Api
             var configuration = builder.Configuration;
            
             builder.Services.AddMongoDB(configuration);
+            
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
             //see InitializeDB in userApi
             var provider = builder.Services.BuildServiceProvider();
             using (var scope = provider.CreateScope())
             {
                 var db = scope.ServiceProvider.GetService<IDatabaseInitializer>();
+                if (db is null)
+                {
+                    return;
+                }
                 db.InitializingAsync().Wait();     //--not to sure about the wait???
             }
 
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+          
 
             builder.Services.AddControllers();
 

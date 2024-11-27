@@ -17,8 +17,8 @@ namespace FShop.Api.Gateway.Controllers
 
         public ProductController(IBusControl busControl, RequestClient<GetProductById> request)
         {
-            _requestClient = request;
             _busControl = busControl;
+            _requestClient = request;
         }
 
         [HttpGet]

@@ -11,7 +11,7 @@ namespace FShop.Product.Api.Repositories
         public ProductRepository(IMongoDatabase mongoDatabase, IMongoCollection<ProductCreated> productCollection)
         {
             _mongoDatabase = mongoDatabase;
-            _productCollection = _mongoDatabase.GetCollection<CreateProduct>("Product");
+            _productCollection = _mongoDatabase.GetCollection<CreateProduct>("product");
         }
         public async Task<ProductCreated> AddProduct(CreateProduct product)
         {
@@ -23,14 +23,14 @@ namespace FShop.Product.Api.Repositories
         {
             var product = _productCollection.AsQueryable().Where(x => x.ProductId == ProductId).FirstOrDefault();
 
-            if (product is not null)
+            if (product is null)
             {
-                await Task.CompletedTask;
-                return new ProductCreated { ProductName = product.ProductName };
+                throw new Exception("Product not found");
             }
             else
             {
-                return null;
+                await Task.CompletedTask;
+                return new ProductCreated { ProductName = product.ProductName };
             }
         }
     }

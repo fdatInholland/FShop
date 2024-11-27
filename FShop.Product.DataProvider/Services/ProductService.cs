@@ -14,16 +14,13 @@ namespace FShop.Product.DataProvider
 
         public async Task<ProductCreated> AddProduct(CreateProduct product)
         {
-            //TODO
-            //product.ProductId = Guid.NewGuid();
+            product.ProductId = Guid.NewGuid().ToString();
             return await _repository.AddProduct(product);
         }
 
        public async Task<ProductCreated> GetProduct(Guid ProductId)
         {
-            //TODO
-            //return await _repository.GetProduct(ProductId); ;
-            return null;
+            return await _repository.GetProduct(ProductId.ToString()); 
         }
     }
 }

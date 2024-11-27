@@ -19,6 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FShop.Product.DataProvider"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CBE7A06-0754-48B4-9233-6345DDECA53D}"
 	ProjectSection(SolutionItems) = preProject
+		Docker MongoDB.txt = Docker MongoDB.txt
 		PostmanURL.txt = PostmanURL.txt
 	EndProjectSection
 EndProject

@@ -18,7 +18,6 @@ namespace FShop.Product.Query.Api.Handlers
         {
             var prd = await _productService.GetProduct(context.Message.ProductId);
             await context.RespondAsync<ProductCreated>(prd);
-
         }
     }
 }
