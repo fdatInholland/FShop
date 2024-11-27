@@ -14,16 +14,13 @@ namespace FShop.Product.Api.Services
 
         public async Task<ProductCreated> AddProduct(CreateProduct product)
         {
-            //TODO
-            //product.ProductId = Guid.NewGuid();
+            product.ProductId = Guid.NewGuid().ToString();
             return await _repository.AddProduct(product);
         }
 
         public async Task<ProductCreated> GetProduct(string ProductId)
         {
-            //TODO
              return await _repository.GetProduct(ProductId); ;
-            throw new NotImplementedException();
         }
     }
 }

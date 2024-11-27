@@ -15,7 +15,7 @@ namespace FShop.Infrastructure.Mongo
         {
             _database = mongoDatabase;
 
-            var temp = _database.GetCollection<CreateProduct>("Product");
+            var temp = _database.GetCollection<CreateProduct>("product");
         }
 
         public async Task InitializingAsync()
