@@ -20,7 +20,8 @@ namespace FShop.Product.Api.Services
 
         public async Task<ProductCreated> GetProduct(string ProductId)
         {
-             return await _repository.GetProduct(ProductId); ;
+            var tmp  = await _repository.GetProduct(ProductId); 
+            return await _repository.GetProduct(ProductId); 
         }
     }
 }

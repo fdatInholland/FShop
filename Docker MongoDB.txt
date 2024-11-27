@@ -1,3 +1,14 @@
 docker pull mongodb/mongodb-community-server:latest
 
 docker run --name mongodb -p 27017:27017 -d mongodb/mongodb-community-server:latest
+
+example json product:
+
+{
+  "_Id": "64b1f3d4b1c2a3e456789012",
+  "ProductId": "P12345",
+  "ProductName": "Sample Product",
+  "ProductDescription": "A great product.",
+  "Price": 19.99,
+  "CategoryId": "4b5c7e2f-8c0d-4ad4-b517-1a9c313eef82"
+}

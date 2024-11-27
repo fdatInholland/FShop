@@ -16,7 +16,7 @@ namespace FShop.Product.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string productid)
+        public async Task<IActionResult> Get(string productid = "P12345")
         {
             var prod = await _Service.GetProduct(productid);
             return Ok(prod);
