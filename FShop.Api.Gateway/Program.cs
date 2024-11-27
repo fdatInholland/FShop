@@ -14,12 +14,6 @@ namespace FShop.Api.Gateway
 
             builder.Services.AddControllers();
 
-            //builder.Services.AddScoped<IRepo, Repo>();
-            //builder.Services.AddScoped<IService, Service>();
-
-            //TODO
-            //builder.Services.AddScoped<CreateProductHandler>();
-
             builder.Services.AddMongoDB(builder.Configuration);
 
             builder.Services.AddEndpointsApiExplorer();

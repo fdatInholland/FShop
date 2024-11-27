@@ -18,8 +18,8 @@ namespace FShop.Product.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string productid = "P12345")
         {
-            var prod = await _Service.GetProduct(productid);
-            return Ok(prod);
+            ProductCreated product = await _Service.GetProductById(productid);
+            return Ok(product);
         }
 
         [HttpPost]

@@ -17,7 +17,7 @@ namespace FShop.Product.Api
             
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
+            builder.Services.AddScoped<CreateProductHandler>();
 
             //see InitializeDB in userApi
             var provider = builder.Services.BuildServiceProvider();
@@ -31,52 +31,47 @@ namespace FShop.Product.Api
                 db.InitializingAsync().Wait();     //--not to sure about the wait???
             }
 
-          
-
-            builder.Services.AddControllers();
-
-            // Add MassTransit handler.
-           // builder.Services.AddScoped<CreateProductHandler>();
+           
 
             // Add MassTransit and rabbitmq.
+            var rabbitmqoptions = new RabbitMQOption();
+            builder.Configuration.GetSection("rabbitmq").Bind(rabbitmqoptions);
 
-            //var rabbitmqoptions = new RabbitMQOption();
-            //builder.Configuration.GetSection("rabbitmq").Bind(rabbitmqoptions);
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CreateProductHandler>();
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.Host(new Uri(rabbitmqoptions.Connectionstring), hostconfig =>
+                    {
+                        hostconfig.Username(rabbitmqoptions.Username);
+                        hostconfig.Password(rabbitmqoptions.Password);
+                    });
+                    cfg.ReceiveEndpoint("create_product", ep =>
+                    {
+                        //16 messages per time
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(retryconfig => { retryconfig.Interval(2, 100); });
+                        //create_product is linked to CreateProductHandler
+                        ep.ConfigureConsumer<CreateProductHandler>(provider);
+                    });
+                }));
+            });
 
-            //builder.Services.AddMassTransit(x =>
-            //{
-            //    x.AddConsumer<CreateProductHandler>();
-            //    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
-            //    {
-            //        cfg.Host(new Uri(rabbitmqoptions.Connectionstring), hostconfig =>
-            //        {
-            //            hostconfig.Username(rabbitmqoptions.Username);
-            //            hostconfig.Password(rabbitmqoptions.Password);
-            //        });
-            //        cfg.ReceiveEndpoint("create_product", ep =>
-            //        {
-            //            //16 messages per time
-            //            ep.PrefetchCount = 16;
-            //            ep.UseMessageRetry(retryconfig => { retryconfig.Interval(2, 100); });
-            //            //create_product is linked to CreateProductHandler
-            //            ep.ConfigureConsumer<CreateProductHandler>(provider);
-            //        });
-            //    }));
-            //});
+            var prov = builder.Services.BuildServiceProvider();
+            using (var scope = prov.CreateScope())
+            {
+                var buscontrol = scope.ServiceProvider.GetService<IBusControl>();
+                buscontrol.Start();
+            }
+            builder.Services.Configure<MassTransitHostOptions>(options =>
+            {
+                options.WaitUntilStarted = true;
+                options.StartTimeout = TimeSpan.FromSeconds(30);
+                options.StopTimeout = TimeSpan.FromMinutes(1);
+            });
 
-            //var prov = builder.Services.BuildServiceProvider();
-            //using (var scope = prov.CreateScope())
-            //{
-            //    var buscontrol = scope.ServiceProvider.GetService<IBusControl>();
-            //    buscontrol.Start();
-            //}
-            ////hope this all works.... is the bus started?
-            ////builder.Services.Configure<MassTransitHostOptions>(options =>
-            ////{
-            ////    options.WaitUntilStarted = true;
-            ////    options.StartTimeout = TimeSpan.FromSeconds(30);
-            ////    options.StopTimeout = TimeSpan.FromMinutes(1);
-            ////});
+            builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
 

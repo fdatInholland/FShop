@@ -19,7 +19,7 @@ namespace FShop.Product.Api.Repositories
             return new ProductCreated { ProductId = product.ProductId, ProductName = product.ProductName, CreatedAt = DateTime.Now };
         }
 
-        public async Task<ProductCreated> GetProduct(string ProductId)
+        public async Task<ProductCreated> GetProductById(string ProductId)
         {
             var product = _productCollection.AsQueryable().Where(x => x.ProductId == ProductId).FirstOrDefault();
 
@@ -30,7 +30,7 @@ namespace FShop.Product.Api.Repositories
             else
             {
                 await Task.CompletedTask;
-                return new ProductCreated { ProductName = product.ProductName };
+                return new ProductCreated { ProductId = product.ProductId, ProductName = product.ProductName, Price = product.Price};
             }
         }
     }

@@ -5,6 +5,6 @@ namespace FShop.Product.Api.Repositories
     public interface IProductRepository
     {
         Task<ProductCreated> AddProduct(CreateProduct product);
-        Task<ProductCreated> GetProduct(string ProductId);
+        Task<ProductCreated> GetProductById(string ProductId);
     }
 }
