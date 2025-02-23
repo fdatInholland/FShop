@@ -13,20 +13,27 @@ namespace FShop.Infrastructure.EventBus
             var rabbitmq = new RabbitMQOption();
             configuration.GetSection("rabbitmq").Bind(rabbitmq);
 
-            services.AddMassTransit(x =>
-            {
-                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
-                {
-                    cfg.Host(new Uri(rabbitmq.Connectionstring), hostcfg =>
+            
+            services.AddMassTransit(x => {
+
+              //TODO
+           //   x.AddConsumer<GetProductByIdConsumer>();
+
+                x.UsingRabbitMq((ctx, cfg) => {
+
+                    cfg.Host("localhost", "/", c =>
                     {
-                        hostcfg.Username(rabbitmq.Username);
-                        hostcfg.Password(rabbitmq.Password);
+                        c.Username(rabbitmq.Username);
+                        c.Password(rabbitmq.Password);
                     });
-                    cfg.ConfigureEndpoints(provider);
-                }));
+
+                    cfg.ConfigureEndpoints(ctx);
+                });
                 x.AddRequestClient<GetProductById>();
             });
+
             return services;
+
         }
     }
 }

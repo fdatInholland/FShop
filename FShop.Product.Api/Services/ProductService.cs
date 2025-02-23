@@ -14,10 +14,9 @@ namespace FShop.Product.Api.Services
 
         public async Task<ProductCreated> AddProduct(CreateProduct product)
         {
-            product.ProductId = Guid.NewGuid().ToString();
+            product.ProductId = product.ProductId;
             return await _repository.AddProduct(product);
         }
-
 
         public async Task<ProductCreated> GetProductById(string ProductId)
         {

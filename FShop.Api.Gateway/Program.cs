@@ -1,5 +1,6 @@
 using FShop.Infrastructure.EventBus;
 using FShop.Infrastructure.Mongo;
+using MassTransit;
 
 namespace FShop.Api.Gateway
 {
@@ -9,14 +10,15 @@ namespace FShop.Api.Gateway
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Add the MassTransit and RabbitMQ
-            builder.Services.AddRabbitMQ(builder.Configuration);
+          //  var prov = builder.Services.BuildServiceProvider();
 
             builder.Services.AddControllers();
 
+            builder.Services.AddRabbitMQ(builder.Configuration);
+
             builder.Services.AddMongoDB(builder.Configuration);
 
-            builder.Services.AddEndpointsApiExplorer();
+          //  builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
 

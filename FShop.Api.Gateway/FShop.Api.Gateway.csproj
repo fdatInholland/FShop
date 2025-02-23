@@ -7,15 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.3.2" />
+    <PackageReference Include="MassTransit" Version="8.3.4" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FShop.Infrastructure\FShop.Infrastructure.csproj" />
-    <ProjectReference Include="..\FShop.Product.Api\FShop.Product.Api.csproj" />
-    <ProjectReference Include="..\FShop.Product.DataProvider\FShop.Product.DataProvider.csproj" />
   </ItemGroup>
 
 </Project>
