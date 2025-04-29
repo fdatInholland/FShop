@@ -1,5 +1,5 @@
 ﻿using FShop.Infrastructure.EventBus.Product;
-using FShop.Product.Api.Services;
+using FShop.Product.DataProvider;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FShop.Product.Api.Controllers
@@ -18,13 +18,14 @@ namespace FShop.Product.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProduct(string productid = "P12345")
         {
-            ProductCreated product = await _Service.GetProductById(productid);
+            ProductCreated product = await _Service.GetProductByID(productid);
             return Ok(product);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CreateProduct product)
         {
+            //TODO REMOVE!!
             CreateProduct p = new CreateProduct()
             {
                 ProductId = "1",

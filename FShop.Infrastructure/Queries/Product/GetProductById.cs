@@ -2,6 +2,6 @@
 {
     public class GetProductById
     {
-        public Guid ProductId { get; set; }
+        public string ProductId { get; set; }
     }
 }

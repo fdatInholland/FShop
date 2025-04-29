@@ -24,7 +24,6 @@ namespace FShop.Order.Api
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();

@@ -10,14 +10,16 @@ namespace FShop.Infrastructure.EventBus
 
         public static IServiceCollection AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
         {
-            var rabbitmq = new RabbitMQOption();
+            RabbitMQOption rabbitmq = new RabbitMQOption();
             configuration.GetSection("rabbitmq").Bind(rabbitmq);
 
             
             services.AddMassTransit(x => {
 
-              //TODO
-           //   x.AddConsumer<GetProductByIdConsumer>();
+                //TODO
+                // Add consumers
+            //    x.AddConsumer<GetProductsHandler>();
+            //    x.AddConsumer<GetProductByIdHandler>();
 
                 x.UsingRabbitMq((ctx, cfg) => {
 

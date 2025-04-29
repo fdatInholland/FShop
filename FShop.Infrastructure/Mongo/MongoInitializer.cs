@@ -7,14 +7,15 @@ namespace FShop.Infrastructure.Mongo
 {
     public class MongoInitializer : IDatabaseInitializer
     {
-        private bool initialized;
+        private bool initialized = true;
         private IMongoDatabase _database;
 
 
         public MongoInitializer(IMongoDatabase mongoDatabase)
         {
             _database = mongoDatabase;
-
+            
+            //TODO - remove
             var temp = _database.GetCollection<CreateProduct>("product");
         }
 

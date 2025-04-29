@@ -19,29 +19,40 @@ namespace FShop.Api.Gateway.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductByID(Guid ProductId)
-        { 
-            var p = new GetProductById { ProductId = ProductId};
-            var product = await _requestClient.GetResponse<ProductCreated>(p);
-            return Accepted(product);
+        public async Task<IActionResult> GetProductByID(string ProductId)
+        {
+            if (ProductId == null)
+            {
+                return BadRequest("Product Id is required");
+            }
+            try
+            {
+                var p = new GetProductById { ProductId = ProductId };
+                var response = await _requestClient.GetResponse<ProductCreated>(p, timeout: TimeSpan.FromSeconds(2));
+                return Ok(response);
+            }
+            catch (RequestTimeoutException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CreateProduct product)
         {
+            //TODO - remove hardcoded values
+            //Try catch stuff
             CreateProduct p = new CreateProduct()
             {
-                ProductId = "12345",
+                ProductId = "666123",
                 ProductName = "Test",
                 ProductDescription = "sample Product",
                 CategoryId = Guid.NewGuid(),
             };
 
+            //TODO - remove hardcoded values
             Uri uri = new Uri("rabbitmq://localhost/create_product");
-            //var endpoint = await _publishEndpoint.Publish(p);
-            //    _bus.GetSendEndpoint(uri);
-            //await endpoint.Send(p);
-            _publish.Publish<CreateProduct>(p);
+            await _publish.Publish<CreateProduct>(p);
 
             return Accepted("Product created");
         }

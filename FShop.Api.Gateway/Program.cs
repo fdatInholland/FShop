@@ -10,15 +10,15 @@ namespace FShop.Api.Gateway
         {
             var builder = WebApplication.CreateBuilder(args);
 
-          //  var prov = builder.Services.BuildServiceProvider();
+            var configuration = builder.Configuration;
 
             builder.Services.AddControllers();
 
+        //    builder.Services.AddMongoDB(configuration);
+
             builder.Services.AddRabbitMQ(builder.Configuration);
 
-            builder.Services.AddMongoDB(builder.Configuration);
-
-          //  builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
 

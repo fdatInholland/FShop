@@ -16,7 +16,7 @@ namespace FShop.Product.Query.Api.Handlers
 
         public async Task Consume(ConsumeContext<GetProductById> context)
         {
-            var prd = await _productService.GetProduct(context.Message.ProductId);
+            ProductCreated prd = await _productService.GetProductByID(context.Message.ProductId);
             await context.RespondAsync<ProductCreated>(prd);
         }
     }

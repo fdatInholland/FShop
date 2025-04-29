@@ -18,6 +18,7 @@ namespace FShop.User.Api.Repository
         public async Task<UserCreated> AddUser(CreateUser createUser)
         {
             await _collection.InsertOneAsync(createUser);
+            // do through ctor?
             return new UserCreated
             {
                 ContactNo = createUser.ContactNo,

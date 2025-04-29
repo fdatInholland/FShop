@@ -18,9 +18,9 @@ namespace FShop.Product.DataProvider
             return await _repository.AddProduct(product);
         }
 
-       public async Task<ProductCreated> GetProduct(Guid ProductId)
+        public async Task<ProductCreated> GetProductByID(string ProductId)
         {
-            return await _repository.GetProduct(ProductId.ToString()); 
+                return await _repository.GetProduct(ProductId.ToString());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using FShop.Infrastructure.EventBus.Product;
-using FShop.Product.Api.Services;
+using FShop.Product.DataProvider;
 
 namespace FShop.Product.Api
 {
