@@ -1,8 +1,9 @@
 ﻿using FShop.Infrastructure.Command.User;
 using FShop.Infrastructure.Event.User;
+using FShop.User.DataProvider.Services;
 using MongoDB.Driver;
 
-namespace FShop.User.Api.Repository
+namespace FShop.User.DataProvider.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -18,7 +19,7 @@ namespace FShop.User.Api.Repository
         public async Task<UserCreated> AddUser(CreateUser createUser)
         {
             await _collection.InsertOneAsync(createUser);
-            // do through ctor?
+            //TODO do through ctor?
             return new UserCreated
             {
                 ContactNo = createUser.ContactNo,

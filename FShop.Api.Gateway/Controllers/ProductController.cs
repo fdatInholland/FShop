@@ -21,7 +21,7 @@ namespace FShop.Api.Gateway.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductByID(string ProductId)
         {
-            if (ProductId == null)
+            if (ProductId is null)
             {
                 return BadRequest("Product Id is required");
             }

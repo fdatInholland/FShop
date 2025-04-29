@@ -1,6 +1,9 @@
+using FShop.Infrastructure.EventBus;
 using FShop.Infrastructure.Mongo;
-using FShop.User.Api.Repository;
-using FShop.User.Api.Service;
+using FShop.User.Api.Handlers;
+using FShop.User.DataProvider.Repositories;
+using FShop.User.DataProvider.Services;
+using MassTransit;
 
 namespace FShop.User.Api
 {
@@ -13,6 +16,34 @@ namespace FShop.User.Api
             builder.Services.AddControllers();
 
             builder.Services.AddMongoDB(builder.Configuration);
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<CreateuserHandler>();
+
+            var rabbitmqoptions = new RabbitMQOption();
+            builder.Configuration.GetSection("rabbitmq").Bind(rabbitmqoptions);
+
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CreateuserHandler>();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(new Uri(rabbitmqoptions.Connectionstring), hostconfig =>
+                    {
+                        hostconfig.Username(rabbitmqoptions.Username);
+                        hostconfig.Password(rabbitmqoptions.Password);
+                    });
+
+                    cfg.ReceiveEndpoint("add_user", ep =>
+                    {
+                        //16 messages per time - twice retry and 100ms interval
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(retryconfig => { retryconfig.Interval(2, 100); });
+                        ep.ConfigureConsumer<CreateuserHandler>(context);
+                    });
+                });
+            });
 
             await InitializeDB(builder);
 

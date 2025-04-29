@@ -1,9 +1,9 @@
 ﻿using FShop.Infrastructure.Command.User;
 using FShop.Infrastructure.Event.User;
 
-namespace FShop.User.Api.Service
+namespace FShop.User.DataProvider.Services
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         Task<UserCreated> AddUser(CreateUser createUser);
         Task<UserCreated> GetUser(CreateUser createUser);

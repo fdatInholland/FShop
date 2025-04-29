@@ -14,7 +14,7 @@ namespace FShop.Api.Gateway
 
             builder.Services.AddControllers();
 
-        //    builder.Services.AddMongoDB(configuration);
+            //builder.Services.AddMongoDB(configuration);
 
             builder.Services.AddRabbitMQ(builder.Configuration);
 

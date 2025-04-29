@@ -1,8 +1,7 @@
 ﻿using FShop.Infrastructure.Command.User;
 using FShop.Infrastructure.Event.User;
-using FShop.User.Api.Repository;
 
-namespace FShop.User.Api.Service
+namespace FShop.User.DataProvider.Services
 {
     public class UserService : IUserService
     {

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FShop.Infrastructure\FShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\FShop.User.DataProvider\FShop.User.DataProvider.csproj" />
   </ItemGroup>
 
 </Project>

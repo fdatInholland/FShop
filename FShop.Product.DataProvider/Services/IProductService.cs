@@ -1,6 +1,4 @@
-﻿
-
-using FShop.Infrastructure.EventBus.Product;
+﻿using FShop.Infrastructure.EventBus.Product;
 
 namespace FShop.Product.DataProvider
 {
